@@ -12,10 +12,15 @@ public class StandingPlayerState : IPlayerState
 
     public void Execute(Player player)
     {
-        if (Input.GetKeyDown("w"))
+        if (Input.GetKey("w"))
         {
             JumpingPlayerState jumpingPlayerState = new JumpingPlayerState();
             jumpingPlayerState.Enter(player);
+        } 
+        else if (Input.GetKey("s"))
+        {
+            DuckingPlayerState duckingPlayerState = new DuckingPlayerState();
+            duckingPlayerState.Enter(player);
         }
     }
 }

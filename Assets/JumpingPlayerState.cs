@@ -7,11 +7,13 @@ public class JumpingPlayerState : IPlayerState
     private float timeSinceJumpStart;
     //private const float jumpDelay = 0.5f;
     private bool canJump = false;
+    private const float jumpStrength = 7f;
 
     public void Enter(Player player)
     {
 
-        player.GetComponent<Rigidbody>().velocity = new Vector3(0f, 20f, 0f);// .AddForce(0f, 1000f, 0f);
+        //player.GetComponent<Rigidbody>().velocity = new Vector3(0f, jumpStrength, 0f);// .AddForce(0f, 1000f, 0f);
+        player.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
         Debug.Log("Entering jumping State");
         //timeSinceJumpStart = Time.time;
         player._currentState = this;
@@ -19,8 +21,8 @@ public class JumpingPlayerState : IPlayerState
 
     public void Execute(Player player)
     {
-        
-        if (Physics.Raycast(player.transform.position, Vector3.down, player.transform.localScale.x * 0.5f))
+
+        if (Physics.Raycast(player.transform.position, Vector3.down, player.transform.localScale.x * 0.52f))
         {
             if (canJump)
             {
@@ -31,6 +33,11 @@ public class JumpingPlayerState : IPlayerState
         else
         {
             canJump = true;
+        }
+        if (Input.GetKeyDown("s"))
+        {
+            DivingPlayerState divingPlayerState = new DivingPlayerState();
+            divingPlayerState.Enter(player);
         }
     }
 }
